@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Jest: Debug Current File",
+      "name": "Debug Current Test",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
-      "args": ["--runInBand", "${file}"],
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${file}", "--runInBand", "--testTimeout=300000"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
