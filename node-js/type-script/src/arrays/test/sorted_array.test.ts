@@ -1,4 +1,4 @@
-import { SortedArray, Comparator } from './sorted_array';
+import { SortedArray, Comparator } from '../sorted_array';
 
 describe('SortedArray', () => {
   describe('constructor', () => {
