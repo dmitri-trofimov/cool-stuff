@@ -3,11 +3,11 @@ export type Comparator<T> = (a: T, b: T) => number;
 const defaultComparator: Comparator<any> = (a, b) => {
   if (a < b) {
     return -1;
-  }
-  if (a > b) {
+  } else if (a > b) {
     return 1;
+  } else {
+    return 0;
   }
-  return 0;
 };
 
 export class SortedArray<T> implements Iterable<T> {
@@ -16,6 +16,7 @@ export class SortedArray<T> implements Iterable<T> {
 
   constructor(comparator: Comparator<T> = defaultComparator, initialValues?: T[]) {
     this.comparator = comparator;
+
     if (initialValues) {
       this.array = initialValues.slice().sort(this.comparator);
     }
@@ -35,6 +36,7 @@ export class SortedArray<T> implements Iterable<T> {
         high = mid;
       }
     }
+
     return low;
   }
 
@@ -53,11 +55,14 @@ export class SortedArray<T> implements Iterable<T> {
 
       if (comparison === 0) {
         let firstIndex = mid;
+
         while (firstIndex > 0 && this.comparator(this.array[firstIndex - 1], element) === 0) {
           firstIndex--;
         }
+
         return firstIndex;
       }
+
       if (comparison < 0) {
         low = mid + 1;
       } else {
@@ -70,10 +75,12 @@ export class SortedArray<T> implements Iterable<T> {
 
   remove(element: T): boolean {
     const index = this.indexOf(element);
+
     if (index !== -1) {
       this.array.splice(index, 1);
       return true;
     }
+
     return false;
   }
 
@@ -81,6 +88,7 @@ export class SortedArray<T> implements Iterable<T> {
     if (index >= 0 && index < this.array.length) {
       return this.array.splice(index, 1)[0];
     }
+
     return undefined;
   }
 
