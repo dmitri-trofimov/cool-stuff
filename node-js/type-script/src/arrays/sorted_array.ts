@@ -10,7 +10,7 @@ const defaultComparator: Comparator<any> = (a, b) => {
   }
 };
 
-export class SortedArray<T> implements Iterable<T> {
+export class SortedArray<T = number> implements Iterable<T> {
   private readonly array: T[] = [];
   private readonly comparator: Comparator<T>;
 
