@@ -14,7 +14,7 @@ export class SortedArray<T = number> implements Iterable<T> {
   private readonly array: T[] = [];
   private readonly comparator: Comparator<T>;
 
-  constructor(comparator: Comparator<T> = defaultComparator, initialValues?: T[]) {
+  constructor(comparator: Comparator<T> = defaultComparator, ...initialValues: T[]) {
     this.comparator = comparator;
 
     if (initialValues) {
@@ -90,6 +90,36 @@ export class SortedArray<T = number> implements Iterable<T> {
     }
 
     return undefined;
+  }
+
+  resortElementAtIndex(index: number): boolean {
+    if (index < 0 || index >= this.array.length) {
+      return false;
+    }
+
+    const element = this.array[index];
+
+    const isGreaterThanPrev = index === 0 || this.comparator(this.array[index - 1], element) <= 0;
+    const isLessThanNext = index === this.array.length - 1 || this.comparator(element, this.array[index + 1]) <= 0;
+
+    if (isGreaterThanPrev && isLessThanNext) {
+      return true; // Already sorted
+    }
+
+    this.array.splice(index, 1);
+    this.insert(element);
+
+    return true;
+  }
+
+  resortElement(element: T): boolean {
+    const index = this.array.indexOf(element);
+
+    if (index === -1) {
+      return false;
+    }
+
+    return this.resortElementAtIndex(index);
   }
 
   get(index: number): T | undefined {
