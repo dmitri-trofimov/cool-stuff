@@ -1,4 +1,4 @@
-import { generatePalindromicNumbers } from '../palindromic_numbers';
+import { generatePalindromicNumbers } from '../palindromic-numbers';
 
 describe('generatePalindromicNumbers', () => {
   it('should generate palindromic numbers in base 10', () => {

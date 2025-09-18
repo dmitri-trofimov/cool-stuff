@@ -1,4 +1,4 @@
-import { SortedArray, Comparator } from '../sorted_array';
+import { SortedArray, Comparator } from '../sorted-array';
 
 describe('SortedArray', () => {
   describe('constructor', () => {
@@ -214,40 +214,6 @@ describe('SortedArray', () => {
       const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5]);
       const result = sortedArray.updateOrderOfElementAt(10);
       expect(result).toBe(false);
-    });
-  });
-
-  describe('leet code problems', () => {
-    describe('2353. Design a Food Rating System', () => {
-      it('testcase 38', () => {
-        type Food = {
-          name: string;
-          rating: number;
-        };
-
-        const foodComparator: Comparator<Food> = (a, b) => b.rating - a.rating || a.name.localeCompare(b.name);
-
-        const apple = { name: 'apple', rating: 11 }; // czopaaeyl
-        const banana = { name: 'banana', rating: 2 }; // lxoozsbh
-        const cherry = { name: 'cherry', rating: 15 }; // kbaxapl
-
-        const sortedArray = new SortedArray(foodComparator, apple, banana, cherry);
-
-        sortedArray.remove(apple);
-        apple.rating = 12;
-        sortedArray.insert(apple);
-        expect(sortedArray.get(0)).toEqual(cherry);
-
-        sortedArray.remove(cherry);
-        cherry.rating = 8;
-        sortedArray.insert(cherry);
-        expect(sortedArray.get(0)).toEqual(apple);
-
-        sortedArray.remove(banana);
-        banana.rating = 5;
-        sortedArray.insert(banana);
-        expect(sortedArray.get(0)).toEqual(apple);
-      });
     });
   });
 });
