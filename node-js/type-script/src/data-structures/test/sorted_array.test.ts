@@ -138,6 +138,55 @@ describe('SortedArray', () => {
     });
   });
 
+  describe('updateOrderOf', () => {
+    it('should reposition the element correctly after its value has changed', () => {
+      const initialValues = [{ val: 1 }, { val: 5 }, { val: 10 }];
+      const comparator: Comparator<{ val: number }> = (a, b) => a.val - b.val;
+      const sortedArray = new SortedArray(comparator, ...initialValues);
+
+      const elementToChange = initialValues[1]; // { val: 5 }
+      elementToChange.val = 12;
+
+      const result = sortedArray.updateOrderOf(elementToChange);
+
+      expect(result).toBe(true);
+      expect(sortedArray.toArray()).toEqual([{ val: 1 }, { val: 10 }, { val: 12 }]);
+    });
+
+    it('should return false if the element is not in the array', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5]);
+      const result = sortedArray.updateOrderOf(10);
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('updateOrderOfElementAt', () => {
+    it('should reposition the element at the given index', () => {
+      const initialValues = [{ val: 1 }, { val: 5 }, { val: 10 }];
+      const comparator: Comparator<{ val: number }> = (a, b) => a.val - b.val;
+      const sortedArray = new SortedArray(comparator, ...initialValues);
+
+      const elementToChange = sortedArray.get(1)!; // { val: 5 }
+      elementToChange.val = 12;
+      sortedArray.updateOrderOfElementAt(1);
+
+      expect(sortedArray.toArray()).toEqual([{ val: 1 }, { val: 10 }, { val: 12 }]);
+    });
+
+    it('should return true if element is already in sorted order', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5]);
+      const result = sortedArray.updateOrderOfElementAt(1);
+      expect(result).toBe(true);
+      expect(sortedArray.toArray()).toEqual([1, 2, 5]);
+    });
+
+    it('should return false for an invalid index', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5]);
+      const result = sortedArray.updateOrderOfElementAt(10);
+      expect(result).toBe(false);
+    });
+  });
+
   describe('leet code problems', () => {
     describe('2353. Design a Food Rating System', () => {
       it('testcase 38', () => {

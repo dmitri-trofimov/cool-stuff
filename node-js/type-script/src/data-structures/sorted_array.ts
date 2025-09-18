@@ -92,7 +92,7 @@ export class SortedArray<T = number> implements Iterable<T> {
     return undefined;
   }
 
-  resortElementAtIndex(index: number): boolean {
+  updateOrderOfElementAt(index: number): boolean {
     if (index < 0 || index >= this.array.length) {
       return false;
     }
@@ -112,14 +112,14 @@ export class SortedArray<T = number> implements Iterable<T> {
     return true;
   }
 
-  resortElement(element: T): boolean {
+  updateOrderOf(element: T): boolean {
     const index = this.array.indexOf(element);
 
     if (index === -1) {
       return false;
     }
 
-    return this.resortElementAtIndex(index);
+    return this.updateOrderOfElementAt(index);
   }
 
   get(index: number): T | undefined {
