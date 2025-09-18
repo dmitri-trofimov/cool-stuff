@@ -94,17 +94,17 @@ describe('SortedArray', () => {
     });
   });
 
-  describe('removeAtIndex', () => {
+  describe('removeAt', () => {
     it('should remove the element at the specified index', () => {
       const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5, 8, 9]);
-      const removed = sortedArray.removeAtIndex(2);
+      const removed = sortedArray.removeAt(2);
       expect(removed).toBe(5);
       expect(sortedArray.toArray()).toEqual([1, 2, 8, 9]);
     });
 
     it('should return undefined for an invalid index', () => {
       const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 5, 8, 9]);
-      const removed = sortedArray.removeAtIndex(10);
+      const removed = sortedArray.removeAt(10);
       expect(removed).toBeUndefined();
       expect(sortedArray.toArray()).toEqual([1, 2, 5, 8, 9]);
     });
@@ -122,7 +122,7 @@ describe('SortedArray', () => {
       expect(sortedArray.length).toBe(5);
       sortedArray.insert(10);
       expect(sortedArray.length).toBe(6);
-      sortedArray.removeAtIndex(0);
+      sortedArray.removeAt(0);
       expect(sortedArray.length).toBe(5);
     });
 

@@ -84,7 +84,7 @@ export class SortedArray<T = number> implements Iterable<T> {
     return false;
   }
 
-  removeAtIndex(index: number): T | undefined {
+  removeAt(index: number): T | undefined {
     if (index >= 0 && index < this.array.length) {
       return this.array.splice(index, 1)[0];
     }
