@@ -138,6 +138,36 @@ describe('SortedArray', () => {
     });
   });
 
+  describe('removeAll', () => {
+    it('should remove and return all elements satisfying the predicate', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[1, 2, 3, 4, 5, 5, 6]);
+      const removedElements = sortedArray.removeAll((num) => num % 2 === 0); // Remove all even numbers
+      expect(removedElements).toEqual([2, 4, 6]);
+      expect(sortedArray.toArray()).toEqual([1, 3, 5, 5]);
+    });
+
+    it('should return an empty array if no elements satisfy the predicate', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[1, 3, 5, 7]);
+      const removedElements = sortedArray.removeAll((num) => num % 2 === 0);
+      expect(removedElements).toEqual([]);
+      expect(sortedArray.toArray()).toEqual([1, 3, 5, 7]);
+    });
+
+    it('should remove and return all elements if all satisfy the predicate', () => {
+      const sortedArray = new SortedArray<number>(undefined, ...[2, 4, 6, 8]);
+      const removedElements = sortedArray.removeAll((num) => num % 2 === 0);
+      expect(removedElements).toEqual([2, 4, 6, 8]);
+      expect(sortedArray.toArray()).toEqual([]);
+    });
+
+    it('should work correctly on an empty array', () => {
+      const sortedArray = new SortedArray<number>();
+      const removedElements = sortedArray.removeAll((num) => num > 0);
+      expect(removedElements).toEqual([]);
+      expect(sortedArray.toArray()).toEqual([]);
+    });
+  });
+
   describe('updateOrderOf', () => {
     it('should reposition the element correctly after its value has changed', () => {
       const initialValues = [{ val: 1 }, { val: 5 }, { val: 10 }];

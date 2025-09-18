@@ -92,6 +92,19 @@ export class SortedArray<T = number> implements Iterable<T> {
     return undefined;
   }
 
+  removeAll(predicate: (element: T) => boolean): T[] {
+    const removedElements: T[] = [];
+
+    for (let i = this.array.length - 1; i >= 0; i--) {
+      if (predicate(this.array[i])) {
+        const [removed] = this.array.splice(i, 1);
+        removedElements.push(removed);
+      }
+    }
+
+    return removedElements.reverse();
+  }
+
   updateOrderOfElementAt(index: number): boolean {
     if (index < 0 || index >= this.array.length) {
       return false;
