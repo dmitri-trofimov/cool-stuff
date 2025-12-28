@@ -19,7 +19,7 @@ export function chunk<T>(array: T[], chunkSize: number): T[][] {
  *
  * Returns -1 if no element satisfies the condition.
  */
-export function binarySearch(sortedArray: number[], predicate: (item: number) => boolean): number {
+export function binarySearch<T = number>(sortedArray: T[], predicate: (item: T) => boolean): number {
   let low = 0;
   let high = sortedArray.length;
 
