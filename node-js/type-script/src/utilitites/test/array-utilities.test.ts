@@ -1,4 +1,4 @@
-import { chunk } from '../array-utilities';
+import { chunk, binarySearch } from '../array-utilities';
 
 describe('chunk', () => {
   it('should split an array into chunks of the specified size', () => {
@@ -54,5 +54,31 @@ describe('chunk', () => {
     const array = [1, 2, 3];
     const chunkSize = -1;
     expect(() => chunk(array, chunkSize)).toThrow('Chunk size must be greater than 0.');
+  });
+});
+
+describe('binarySearch', () => {
+  it('should return the index of the first element matching the predicate', () => {
+    const array = [1, 3, 5, 7, 9];
+    const predicate = (x: number) => x > 4;
+    expect(binarySearch(array, predicate)).toBe(2); // index of 5
+  });
+
+  it('should return -1 if no element matches the predicate', () => {
+    const array = [1, 3, 5];
+    const predicate = (x: number) => x > 10;
+    expect(binarySearch(array, predicate)).toBe(-1);
+  });
+
+  it('should work with empty array', () => {
+    const array: number[] = [];
+    const predicate = (x: number) => x > 5;
+    expect(binarySearch(array, predicate)).toBe(-1);
+  });
+
+  it('should return 0 if the first element matches', () => {
+    const array = [5, 7, 9];
+    const predicate = (x: number) => x > 3;
+    expect(binarySearch(array, predicate)).toBe(0);
   });
 });
