@@ -1,4 +1,4 @@
-import { chunk, binarySearch } from '../array-utilities';
+import { chunk, binarySearch, groupBy } from '../array-utilities';
 
 describe('chunk', () => {
   it('should split an array into chunks of the specified size', () => {
@@ -80,5 +80,48 @@ describe('binarySearch', () => {
     const array = [5, 7, 9];
     const predicate = (x: number) => x > 3;
     expect(binarySearch(array, predicate)).toBe(0);
+  });
+});
+
+describe('groupBy', () => {
+  it('should group items by a numeric key', () => {
+    const items = [1, 2, 3, 4, 5];
+    const result = groupBy(items, x => x % 2);
+    expect(result.get(0)).toEqual([2, 4]);
+    expect(result.get(1)).toEqual([1, 3, 5]);
+  });
+
+  it('should group items by a string key', () => {
+    const items = ['apple', 'banana', 'cherry', 'date'];
+    const result = groupBy(items, x => x.length);
+    expect(result.get(5)).toEqual(['apple']);
+    expect(result.get(6)).toEqual(['banana', 'cherry']);
+    expect(result.get(4)).toEqual(['date']);
+  });
+
+  it('should handle empty array', () => {
+    const items: number[] = [];
+    const result = groupBy(items, x => x);
+    expect(result.size).toBe(0);
+  });
+
+  it('should handle all items in the same group', () => {
+    const items = [1, 2, 3];
+    const result = groupBy(items, () => 'same');
+    expect(result.get('same')).toEqual([1, 2, 3]);
+  });
+
+  it('should work with objects', () => {
+    const items = [
+      { name: 'Alice', age: 25 },
+      { name: 'Bob', age: 30 },
+      { name: 'Charlie', age: 25 }
+    ];
+    const result = groupBy(items, item => item.age);
+    expect(result.get(25)).toEqual([
+      { name: 'Alice', age: 25 },
+      { name: 'Charlie', age: 25 }
+    ]);
+    expect(result.get(30)).toEqual([{ name: 'Bob', age: 30 }]);
   });
 });

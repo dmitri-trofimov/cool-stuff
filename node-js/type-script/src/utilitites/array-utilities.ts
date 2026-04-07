@@ -35,3 +35,38 @@ export function binarySearch<T = number>(sortedArray: T[], predicate: (item: T) 
 
   return low < sortedArray.length ? low : -1;
 }
+
+/**
+ * Groups an array of items into a Map based on a key function.
+ *
+ * @param items - The array of items to group.
+ * @param getGroupKeyFunc - A function that takes an item and returns the key to group by.
+ * @returns A Map where each key is a group key and each value is an array of items that share that key.
+ *
+ * @example
+ * ```typescript
+ * const items = [{ name: 'Alice', age: 25 }, { name: 'Bob', age: 30 }, { name: 'Charlie', age: 25 }];
+ * const grouped = groupBy(items, item => item.age);
+ * // grouped.get(25) => [{ name: 'Alice', age: 25 }, { name: 'Charlie', age: 25 }]
+ * // grouped.get(30) => [{ name: 'Bob', age: 30 }]
+ * ```
+ */
+export function groupBy<TGroupItem, TGroupKey>(
+  items: TGroupItem[],
+  getGroupKeyFunc: (n: TGroupItem) => TGroupKey
+): Map<TGroupKey, TGroupItem[]> {
+  const map = new Map<TGroupKey, TGroupItem[]>();
+
+  for (const item of items) {
+    const groupKey = getGroupKeyFunc(item);
+    const group = map.get(groupKey);
+
+    if (group !== undefined) {
+      group.push(item);
+    } else {
+      map.set(groupKey, [item]);
+    }
+  }
+
+  return map;
+}
