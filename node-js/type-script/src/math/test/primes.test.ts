@@ -1,70 +1,73 @@
-import { isPrime } from '../primes';
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert/strict';
+
+import { isPrime } from '../primes.ts';
 
 describe('isPrime', () => {
   describe('Small numbers', () => {
     it('should return false for numbers <= 1', () => {
-      expect(isPrime(1)).toBe(false);
-      expect(isPrime(0)).toBe(false);
-      expect(isPrime(-1)).toBe(false);
-      expect(isPrime(-17)).toBe(false);
+      assert.strictEqual(isPrime(1), false);
+      assert.strictEqual(isPrime(0), false);
+      assert.strictEqual(isPrime(-1), false);
+      assert.strictEqual(isPrime(-17), false);
     });
 
     it('should return true for small primes', () => {
-      expect(isPrime(2)).toBe(true);
-      expect(isPrime(3)).toBe(true);
-      expect(isPrime(5)).toBe(true);
-      expect(isPrime(7)).toBe(true);
-      expect(isPrime(11)).toBe(true);
-      expect(isPrime(13)).toBe(true);
+      assert.strictEqual(isPrime(2), true);
+      assert.strictEqual(isPrime(3), true);
+      assert.strictEqual(isPrime(5), true);
+      assert.strictEqual(isPrime(7), true);
+      assert.strictEqual(isPrime(11), true);
+      assert.strictEqual(isPrime(13), true);
     });
 
     it('should return false for small composites', () => {
-      expect(isPrime(4)).toBe(false);
-      expect(isPrime(6)).toBe(false);
-      expect(isPrime(8)).toBe(false);
-      expect(isPrime(9)).toBe(false);
-      expect(isPrime(10)).toBe(false);
-      expect(isPrime(25)).toBe(false);
+      assert.strictEqual(isPrime(4), false);
+      assert.strictEqual(isPrime(6), false);
+      assert.strictEqual(isPrime(8), false);
+      assert.strictEqual(isPrime(9), false);
+      assert.strictEqual(isPrime(10), false);
+      assert.strictEqual(isPrime(25), false);
     });
   });
 
   describe('Large numbers', () => {
     it('should correctly identify large primes', () => {
-      expect(isPrime(104729)).toBe(true); // 10,000th prime
-      expect(isPrime(1299709)).toBe(true); // 100,000th prime
-      expect(isPrime(Number.MAX_SAFE_INTEGER)).toBe(false); // 2^53 - 1 is composite (divisible by 1114111)
+      assert.strictEqual(isPrime(104729), true); // 10,000th prime
+      assert.strictEqual(isPrime(1299709), true); // 100,000th prime
+      assert.strictEqual(isPrime(Number.MAX_SAFE_INTEGER), false); // 2^53 - 1 is composite (divisible by 1114111)
     });
 
     it('should correctly identify large composites', () => {
-      expect(isPrime(104728)).toBe(false);
-      expect(isPrime(104730)).toBe(false);
+      assert.strictEqual(isPrime(104728), false);
+      assert.strictEqual(isPrime(104730), false);
       // 2^31 - 1 is a Mersenne prime (2147483647)
-      expect(isPrime(2147483647)).toBe(true);
+      assert.strictEqual(isPrime(2147483647), true);
     });
 
     it('should handle the largest safe prime', () => {
       // Largest prime less than MAX_SAFE_INTEGER (9007199254740991)
       // This is 9007199254740881
       // Note: This test might take a bit longer due to O(sqrt(N)) complexity
-      expect(isPrime(9007199254740881)).toBe(true);
+      assert.strictEqual(isPrime(9007199254740881), true);
     });
   });
 
   describe('Edge cases and validation', () => {
     it('should return false for non-integers', () => {
-      expect(isPrime(2.5)).toBe(false);
-      expect(isPrime(1.1)).toBe(false);
+      assert.strictEqual(isPrime(2.5), false);
+      assert.strictEqual(isPrime(1.1), false);
     });
 
     it('should return false for Infinity and NaN', () => {
-      expect(isPrime(Infinity)).toBe(false);
-      expect(isPrime(NaN)).toBe(false);
+      assert.strictEqual(isPrime(Infinity), false);
+      assert.strictEqual(isPrime(NaN), false);
     });
 
     it('should return false for numbers larger than MAX_SAFE_INTEGER', () => {
       // Numbers larger than MAX_SAFE_INTEGER lose precision and cannot be reliably checked
-      expect(isPrime(Number.MAX_SAFE_INTEGER + 1)).toBe(false);
-      expect(isPrime(Number.MAX_SAFE_INTEGER + 2)).toBe(false);
+      assert.strictEqual(isPrime(Number.MAX_SAFE_INTEGER + 1), false);
+      assert.strictEqual(isPrime(Number.MAX_SAFE_INTEGER + 2), false);
     });
   });
 });

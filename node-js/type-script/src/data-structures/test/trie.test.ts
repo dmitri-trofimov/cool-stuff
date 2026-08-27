@@ -1,4 +1,7 @@
-import { Trie } from '../trie';
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert/strict';
+
+import { Trie } from '../trie.ts';
 
 describe('Trie', () => {
   let trie: Trie;
@@ -8,28 +11,28 @@ describe('Trie', () => {
   });
 
   it('should return false for an empty trie search', () => {
-    expect(trie.search('hello')).toBe(false);
+    assert.strictEqual(trie.search('hello'), false);
   });
 
   it('should insert and search for exact words', () => {
     trie.insert('hello');
     trie.insert('help');
 
-    expect(trie.search('hello')).toBe(true);
-    expect(trie.search('help')).toBe(true);
-    expect(trie.search('hel')).toBe(false);
-    expect(trie.search('helloo')).toBe(false);
+    assert.strictEqual(trie.search('hello'), true);
+    assert.strictEqual(trie.search('help'), true);
+    assert.strictEqual(trie.search('hel'), false);
+    assert.strictEqual(trie.search('helloo'), false);
   });
 
   it('should correctly identify existing prefixes', () => {
     trie.insert('hello');
     trie.insert('helium');
 
-    expect(trie.startsWith('he')).toBe(true);
-    expect(trie.startsWith('hel')).toBe(true);
-    expect(trie.startsWith('hello')).toBe(true);
-    expect(trie.startsWith('hey')).toBe(false);
-    expect(trie.startsWith('helloo')).toBe(false);
+    assert.strictEqual(trie.startsWith('he'), true);
+    assert.strictEqual(trie.startsWith('hel'), true);
+    assert.strictEqual(trie.startsWith('hello'), true);
+    assert.strictEqual(trie.startsWith('hey'), false);
+    assert.strictEqual(trie.startsWith('helloo'), false);
   });
 
   it('should return the longest matching prefix with stored words', () => {
@@ -37,19 +40,19 @@ describe('Trie', () => {
     trie.insert('flow');
     trie.insert('flight');
 
-    expect(trie.longestCommonPrefix('floral')).toBe('flo');
-    expect(trie.longestCommonPrefix('flowing')).toBe('flow');
-    expect(trie.longestCommonPrefix('dog')).toBe('');
+    assert.strictEqual(trie.longestCommonPrefix('floral'), 'flo');
+    assert.strictEqual(trie.longestCommonPrefix('flowing'), 'flow');
+    assert.strictEqual(trie.longestCommonPrefix('dog'), '');
   });
 
   it('should support inserting and searching for words that are prefixes of other words', () => {
     trie.insert('cat');
     trie.insert('catalog');
 
-    expect(trie.search('cat')).toBe(true);
-    expect(trie.search('catalog')).toBe(true);
-    expect(trie.startsWith('cata')).toBe(true);
-    expect(trie.longestCommonPrefix('caterpillar')).toBe('cat');
+    assert.strictEqual(trie.search('cat'), true);
+    assert.strictEqual(trie.search('catalog'), true);
+    assert.strictEqual(trie.startsWith('cata'), true);
+    assert.strictEqual(trie.longestCommonPrefix('caterpillar'), 'cat');
   });
 
   it('should return all words that start with a specified prefix', () => {
@@ -59,27 +62,27 @@ describe('Trie', () => {
     trie.insert('banana');
     trie.insert('band');
 
-    expect(trie.findWordsWithPrefix('app')).toEqual(['app', 'apple', 'application']);
-    expect(trie.findWordsWithPrefix('ban')).toEqual(['banana', 'band']);
-    expect(trie.findWordsWithPrefix('bana')).toEqual(['banana']);
-    expect(trie.findWordsWithPrefix('z')).toEqual([]);
-    expect(trie.findWordsWithPrefix('')).toEqual(['app', 'apple', 'application', 'banana', 'band']);
+    assert.deepStrictEqual(trie.findWordsWithPrefix('app'), ['app', 'apple', 'application']);
+    assert.deepStrictEqual(trie.findWordsWithPrefix('ban'), ['banana', 'band']);
+    assert.deepStrictEqual(trie.findWordsWithPrefix('bana'), ['banana']);
+    assert.deepStrictEqual(trie.findWordsWithPrefix('z'), []);
+    assert.deepStrictEqual(trie.findWordsWithPrefix(''), ['app', 'apple', 'application', 'banana', 'band']);
   });
 
   it('should handle repeated insertions of the same word', () => {
     trie.insert('repeat');
     trie.insert('repeat');
 
-    expect(trie.search('repeat')).toBe(true);
-    expect(trie.startsWith('rep')).toBe(true);
-    expect(trie.longestCommonPrefix('repetition')).toBe('repe');
+    assert.strictEqual(trie.search('repeat'), true);
+    assert.strictEqual(trie.startsWith('rep'), true);
+    assert.strictEqual(trie.longestCommonPrefix('repetition'), 'repe');
   });
 
   it('should treat an empty string as a valid inserted word if inserted', () => {
     trie.insert('');
 
-    expect(trie.search('')).toBe(true);
-    expect(trie.startsWith('')).toBe(true);
-    expect(trie.longestCommonPrefix('anything')).toBe('');
+    assert.strictEqual(trie.search(''), true);
+    assert.strictEqual(trie.startsWith(''), true);
+    assert.strictEqual(trie.longestCommonPrefix('anything'), '');
   });
 });

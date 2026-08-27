@@ -5,8 +5,8 @@
       "name": "Debug Current Test",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["${file}", "--runInBand", "--testTimeout=300000"],
+      "runtimeExecutable": "node",
+      "args": ["--test", "${file}"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }

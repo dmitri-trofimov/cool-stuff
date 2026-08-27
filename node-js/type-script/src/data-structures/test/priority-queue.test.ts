@@ -1,4 +1,7 @@
-import PriorityQueue from '../priority-queue';
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert/strict';
+
+import PriorityQueue from '../priority-queue.ts';
 
 describe('PriorityQueue', () => {
   it('should enqueue elements and peek at the max element', () => {
@@ -6,7 +9,7 @@ describe('PriorityQueue', () => {
     pq.enqueue('a', 1);
     pq.enqueue('b', 2);
     pq.enqueue('c', 0);
-    expect(pq.peek()).toBe('b');
+    assert.strictEqual(pq.peek(), 'b');
   });
 
   it('should dequeue the max element correctly', () => {
@@ -14,10 +17,10 @@ describe('PriorityQueue', () => {
     pq.enqueue('a', 1);
     pq.enqueue('b', 2);
     pq.enqueue('c', 3);
-    expect(pq.dequeue()).toBe('c');
-    expect(pq.peek()).toBe('b');
-    expect(pq.dequeue()).toBe('b');
-    expect(pq.peek()).toBe('a');
+    assert.strictEqual(pq.dequeue(), 'c');
+    assert.strictEqual(pq.peek(), 'b');
+    assert.strictEqual(pq.dequeue(), 'b');
+    assert.strictEqual(pq.peek(), 'a');
   });
 
   it('should handle different data types', () => {
@@ -25,25 +28,25 @@ describe('PriorityQueue', () => {
     pq.enqueue(10, 10);
     pq.enqueue(20, 20);
     pq.enqueue(5, 5);
-    expect(pq.peek()).toBe(20);
+    assert.strictEqual(pq.peek(), 20);
   });
 
   it('should return correct size and isEmpty status', () => {
     const pq = new PriorityQueue<string>();
-    expect(pq.isEmpty()).toBe(true);
+    assert.strictEqual(pq.isEmpty(), true);
     pq.enqueue('a', 1);
-    expect(pq.isEmpty()).toBe(false);
-    expect(pq.size()).toBe(1);
+    assert.strictEqual(pq.isEmpty(), false);
+    assert.strictEqual(pq.size(), 1);
     pq.enqueue('b', 2);
-    expect(pq.size()).toBe(2);
+    assert.strictEqual(pq.size(), 2);
     pq.dequeue();
-    expect(pq.size()).toBe(1);
+    assert.strictEqual(pq.size(), 1);
   });
 
   it('should return null when peeking or dequeuing from an empty queue', () => {
     const pq = new PriorityQueue<any>();
-    expect(pq.peek()).toBeNull();
-    expect(pq.dequeue()).toBeNull();
+    assert.strictEqual(pq.peek(), null);
+    assert.strictEqual(pq.dequeue(), null);
   });
 
   it('should handle a larger number of elements', () => {
@@ -51,9 +54,9 @@ describe('PriorityQueue', () => {
     const elements = Array.from({ length: 100 }, (_, i) => i);
     elements.forEach((el) => pq.enqueue(el, el));
 
-    expect(pq.peek()).toBe(99);
-    expect(pq.dequeue()).toBe(99);
-    expect(pq.peek()).toBe(98);
+    assert.strictEqual(pq.peek(), 99);
+    assert.strictEqual(pq.dequeue(), 99);
+    assert.strictEqual(pq.peek(), 98);
   });
 
   it('should handle items with the same priority (FIFO is not guaranteed, but should be stable)', () => {
@@ -63,11 +66,11 @@ describe('PriorityQueue', () => {
     pq.enqueue('c', 2);
     pq.enqueue('d', 3);
 
-    expect(pq.dequeue()).toBe('d');
+    assert.strictEqual(pq.dequeue(), 'd');
     const maxes = new Set([pq.dequeue(), pq.dequeue()]);
-    expect(maxes.has('b')).toBe(true);
-    expect(maxes.has('c')).toBe(true);
-    expect(pq.peek()).toBe('a');
+    assert.strictEqual(maxes.has('b'), true);
+    assert.strictEqual(maxes.has('c'), true);
+    assert.strictEqual(pq.peek(), 'a');
   });
 
   it('should correctly initialize with an array of items', () => {
@@ -77,16 +80,16 @@ describe('PriorityQueue', () => {
       { value: 'c', priority: 2 },
     ];
     const pq = new PriorityQueue<string>(items);
-    expect(pq.size()).toBe(3);
-    expect(pq.peek()).toBe('b');
-    expect(pq.dequeue()).toBe('b');
-    expect(pq.peek()).toBe('c');
+    assert.strictEqual(pq.size(), 3);
+    assert.strictEqual(pq.peek(), 'b');
+    assert.strictEqual(pq.dequeue(), 'b');
+    assert.strictEqual(pq.peek(), 'c');
   });
 
   it('should throw an error when enqueuing a duplicate value', () => {
     const pq = new PriorityQueue<string>();
     pq.enqueue('a', 1);
-    expect(() => pq.enqueue('a', 2)).toThrow('Value already exists in the priority queue.');
+    assert.throws(() => pq.enqueue('a', 2), { message: 'Value already exists in the priority queue.' });
   });
 
   describe('changePriority', () => {
@@ -97,9 +100,9 @@ describe('PriorityQueue', () => {
       pq.enqueue('c', 3);
 
       pq.changePriority('a', 4);
-      expect(pq.peek()).toBe('a');
-      expect(pq.dequeue()).toBe('a');
-      expect(pq.peek()).toBe('c');
+      assert.strictEqual(pq.peek(), 'a');
+      assert.strictEqual(pq.dequeue(), 'a');
+      assert.strictEqual(pq.peek(), 'c');
     });
 
     it('should decrease the priority of an element', () => {
@@ -109,15 +112,15 @@ describe('PriorityQueue', () => {
       pq.enqueue('c', 3);
 
       pq.changePriority('b', 2);
-      expect(pq.peek()).toBe('c');
-      expect(pq.dequeue()).toBe('c');
-      expect(pq.peek()).toBe('b');
+      assert.strictEqual(pq.peek(), 'c');
+      assert.strictEqual(pq.dequeue(), 'c');
+      assert.strictEqual(pq.peek(), 'b');
     });
 
     it('should throw an error if the value does not exist', () => {
       const pq = new PriorityQueue<string>();
       pq.enqueue('a', 1);
-      expect(() => pq.changePriority('b', 2)).toThrow('Value not found in the priority queue.');
+      assert.throws(() => pq.changePriority('b', 2), { message: 'Value not found in the priority queue.' });
     });
   });
 
@@ -129,10 +132,10 @@ describe('PriorityQueue', () => {
       pq.enqueue('c', 3);
 
       pq.remove('b');
-      expect(pq.size()).toBe(2);
-      expect(pq.peek()).toBe('c');
-      expect(pq.dequeue()).toBe('c');
-      expect(pq.peek()).toBe('a');
+      assert.strictEqual(pq.size(), 2);
+      assert.strictEqual(pq.peek(), 'c');
+      assert.strictEqual(pq.dequeue(), 'c');
+      assert.strictEqual(pq.peek(), 'a');
     });
 
     it('should remove the max element', () => {
@@ -142,8 +145,8 @@ describe('PriorityQueue', () => {
       pq.enqueue('c', 2);
 
       pq.remove('b');
-      expect(pq.size()).toBe(2);
-      expect(pq.peek()).toBe('c');
+      assert.strictEqual(pq.size(), 2);
+      assert.strictEqual(pq.peek(), 'c');
     });
 
     it('should remove the last element', () => {
@@ -153,14 +156,14 @@ describe('PriorityQueue', () => {
       pq.enqueue('c', 1);
 
       pq.remove('c');
-      expect(pq.size()).toBe(2);
-      expect(pq.peek()).toBe('a');
+      assert.strictEqual(pq.size(), 2);
+      assert.strictEqual(pq.peek(), 'a');
     });
 
     it('should throw an error if the value does not exist', () => {
       const pq = new PriorityQueue<string>();
       pq.enqueue('a', 1);
-      expect(() => pq.remove('b')).toThrow('Value not found in the priority queue.');
+      assert.throws(() => pq.remove('b'), { message: 'Value not found in the priority queue.' });
     });
   });
 });
